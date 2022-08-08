@@ -21,3 +21,4 @@ setup(api_key = Sys.getenv("YOUR_API_KEY")) # add the following line to your HOM
 ### Data - static
 df <- get_crypto_listings() 
 
+
