@@ -8,9 +8,9 @@ library(DT)
 library(shinyWidgets)
 library(tidyquant)
 
+
 #### Source
 source("global.R", local = T)
-
 
 
 
@@ -31,11 +31,11 @@ ui <- fluidPage(
     choices = df$symbol,
     multiple = T,
     options = list(
-    `actions-box` = TRUE,
-    `none-selected-text` = "Select Your Crypto",
-    `select-all-text` = "Select All",
-    `deselect-all-text` = "Deselect All"
-  )
+      `actions-box` = TRUE,
+      `none-selected-text` = "Select Your Crypto",
+      `select-all-text` = "Select All",
+      `deselect-all-text` = "Deselect All"
+    )
   ),
   
   
@@ -67,7 +67,7 @@ ui <- fluidPage(
   DT::dataTableOutput("table_stock")
   
 )
-      
+
 
 
 ### Server
@@ -89,7 +89,7 @@ server <- function(input, output, session) {
         filter(symbol == input$dropdownCryptoSymbol) %>% 
         select(symbol) %>%
         pull(),
-        
+      
       "USD Price" = df %>% 
         filter(symbol == input$dropdownCryptoSymbol) %>% 
         mutate(usd_price = round(USD_price, 2)) %>% 
@@ -97,7 +97,7 @@ server <- function(input, output, session) {
         pull()
       
       ## to-do: add new column: numeric input from user (avg cost)
-      )
+    )
   })
   
   
@@ -105,7 +105,7 @@ server <- function(input, output, session) {
   ### Stock
   stock_data <- eventReactive(input$addStockButton, {
     req(input$dropdownStockTicker)
-
+    
     data.frame(
       "Company" = getQuote(input$dropdownStockTicker) %>% 
         select(Last) %>%
@@ -115,11 +115,11 @@ server <- function(input, output, session) {
         select(Last) %>%
         pull()
       
-
+      
       ## to-do: add new column: numeric input from user (avg cost)
-      )
+    )
   })
-
+  
   output$table_stock <- DT::renderDataTable(stock_data())
 }
 
